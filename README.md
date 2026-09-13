@@ -202,8 +202,4 @@ python -m unittest discover -s tests -v
 python -m compileall -q src tests
 ```
 
-## Before public release
 
-Add the final author list, funding statement, paper citation/DOI, and the
-license selected by the project owners. No open-source license is assumed by
-this generated repository.
