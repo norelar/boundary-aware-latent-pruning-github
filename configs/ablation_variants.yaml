@@ -1,0 +1,38 @@
+variants:
+  full_data_ce:
+    selection: full
+    loss: cross_entropy
+    use_class_weights: false
+  full_data_class_weight:
+    selection: full
+    loss: cross_entropy
+    use_class_weights: true
+  full_data_focal_loss:
+    selection: full
+    loss: focal
+    use_class_weights: true
+  proposed:
+    selection: proposed
+    feature_mode: vqvae
+  random:
+    selection: random
+    feature_mode: none
+  no_vqvae:
+    selection: proposed
+    feature_mode: raw_pixels
+  no_kmeans:
+    selection: global_ocsvm
+    feature_mode: vqvae
+  no_ocsvm:
+    selection: clustered_random
+    feature_mode: vqvae
+  balanced_proposed:
+    selection: proposed
+    feature_mode: vqvae
+    use_balanced_retention: true
+  nearmiss:
+    selection: nearmiss
+    feature_mode: vqvae
+  tomeklinks:
+    selection: tomeklinks
+    feature_mode: vqvae

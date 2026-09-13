@@ -1,0 +1,61 @@
+project_name: boundary_aware_latent_pruning
+output_dir: outputs/covid19
+
+dataset:
+  name: COVID19
+  train_dir: data/COVID19/train
+  test_dir: data/COVID19/test
+  validation_dir: null
+  pruned_classes: [Normal, Lung_Opacity]
+  retention:
+    Normal: 0.25
+    Lung_Opacity: 0.50
+  retention_sweep: [0.25, 0.50, 0.75]
+  extensions: [.png, .jpg, .jpeg, .bmp, .tif, .tiff, .webp]
+
+vqvae:
+  checkpoint: checkpoints/covid19/vqvae_model_covid19_Size_64x64.pth
+  image_size: 64
+  in_channels: 3
+  embedding_dim: 128
+  num_embeddings: 256
+  hidden_dims: [128, 256, 512]
+  beta: 0.25
+  representation: histogram
+  batch_size: 64
+  num_workers: 2
+
+pruning:
+  n_clusters: 30
+  n_init: 10
+  nu: 0.05
+  gamma: scale
+  include_support_vectors: true
+  boundary_quantile: 0.20
+  boundary_threshold: null
+  n_margin_strata: 5
+  scaler: standard
+  pca_components: 128
+  materialization: copy
+
+training:
+  model: resnet50
+  pretrained: true
+  image_size: 224
+  hidden_dim: 256
+  dropout: 0.30
+  epochs: 10
+  batch_size: 32
+  num_workers: 2
+  learning_rate: 0.0001
+  weight_decay: 0.0001
+  optimizer: adamw
+  scheduler: step
+  scheduler_step_size: 7
+  scheduler_gamma: 0.10
+  validation_fraction: 0.15
+  early_stopping_patience: 5
+  loss: cross_entropy
+  use_class_weights: false
+  mixed_precision: true
+  seeds: [7, 21, 42, 128, 224]
